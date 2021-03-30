@@ -1,8 +1,7 @@
 FROM php:7.1.3-fpm
 
 WORKDIR /var/www/html/
-RUN apt-get update && apt-get install -y \
-    && apt-get install -y nginx \
+RUN apt-get update && apt-get install -y nginx \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
