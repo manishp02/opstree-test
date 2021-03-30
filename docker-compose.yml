@@ -1,0 +1,50 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: php-app 
+    container_name: larvel-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - php-app
+  db:
+    image: mysql:5.7
+    container_name: larvel-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql/
+    networks:
+      - php-app
+      
+  phpmyadmin:
+    depends_on:
+       - db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      - php-app
+#network
+networks:
+  php-app:
+        driver: bridge    
+volumes:
+  mysql:
+    driver: local
