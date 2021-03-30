@@ -10,8 +10,3 @@
 
     php artisan migrate
 
-backup cron job 
-
-
-docker exec 2889ce8b018c /usr/bin/mysqldump -u root --password=manish larvel > backup.sql
-
